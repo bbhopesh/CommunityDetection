@@ -17,4 +17,4 @@ MERGE (to:Node { id: toInteger(edge.to_vertex)})
 CREATE (from)-[:E]->(to)
 
 // Look at nodes with motifs.
-MATCH (n:Node)WHERE n.labels IN ['A', 'B', 'C']  RETURN n
+MATCH (n:Node)-[r:E]-(m:Node) WHERE n.labels IN ['A', 'B', 'C'] and m.labels IN ['A', 'B', 'C'] RETURN n,r,m
