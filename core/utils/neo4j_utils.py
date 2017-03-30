@@ -25,22 +25,29 @@ def write_each_edge_as_csv_row(graph_adm, csv_file, from_vertex_lab="from_vertex
                     writer.writerow([row_index, col_index])
 
 
-def write_node_names_to_csv(node_names, csv_file, id_lab="id", name_lab="name"):
+def write_node_names_to_csv(node_names, graph_labels, csv_file, node_ids=None,
+                            id_lab="id", name_lab="name", labels_lab="labels"):
     """Write node names to a csv file.
 
     Csv file has two columns. First column contains id of the node/vertex. Second column contains the name of the node.
     id of a node is the index in the node_names list.
 
     :param node_names: a list like object containing names of the nodes.
+    :param graph_labels: a list of sets where each element of set has labels of that node.
     :param csv_file: path of output csv file.
     :param id_lab: label of the id column. Default = "id"
     :param name_lab: label of the name column. Default = "name"
     :return: None. Just writes to csv.
     """
+    # Default
+    if node_ids is None:
+        node_ids = range(len(node_names))
+
     with open(csv_file, 'wb') as outcsv:
         writer = csv.writer(outcsv)
         # Write header.
-        writer.writerow([id_lab, name_lab])
+        writer.writerow([id_lab, name_lab, labels_lab])
         for i in range(len(node_names)):
-            writer.writerow([i, node_names[i]])
+            labels_str = ', '.join(str(e) for e in graph_labels[i])
+            writer.writerow([node_ids[i], node_names[i], labels_str])
 

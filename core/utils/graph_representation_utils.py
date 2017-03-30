@@ -13,20 +13,21 @@ def convert_adj_mat_to_adj_list(graph_adm):
     return adj_lists
 
 
-def convert_adj_list_to_graph_obj(graph_adl, node_unique_ids=None, node_labels=None):
+def convert_adj_list_to_graph_obj(graph_adl, node_labels, node_unique_ids=None):
     # Defaults
     if node_unique_ids is None:
         node_unique_ids = range(len(graph_adl))
-    if node_labels is None:
-        node_labels = ['' for i in range(len(graph_adl))]
 
     graph_class_input = {}
     for i in range(len(graph_adl)):
-        graph_class_input[node_unique_ids[i]] = (node_labels[i], graph_adl[i])
+        # We are picking any element of set for now. Our set should only have one element.
+        label = next(iter(node_labels[i])) if len(node_labels[i]) > 0 else ''
+        graph_class_input[node_unique_ids[i]] = (label, graph_adl[i])
 
     return sgm.Graph(graph_class_input)
 
-def convert_adj_mat_to_graph_obj(graph_adm, node_unique_ids=None, node_labels=None):
+
+def convert_adj_mat_to_graph_obj(graph_adm, graph_labels, node_unique_ids=None):
     graph_adl = convert_adj_mat_to_adj_list(graph_adm)
-    return convert_adj_list_to_graph_obj(graph_adl)
+    return convert_adj_list_to_graph_obj(graph_adl, graph_labels)
 

@@ -10,7 +10,7 @@ edges_file = "edges.csv"
 # Constants.
 triangle_motif_adm = np.array([[0, 1, 1], [1, 0, 1], [1, 1, 0]]) # adm means adjacency matrix.
 graph_size = 1000
-num_motifs = 100  # number of motifs to be inserted in graph.
+num_motifs = 100 # number of motifs to be inserted in graph.
 
 motif_size = triangle_motif_adm.shape[0]
 
@@ -21,7 +21,7 @@ motif_size = triangle_motif_adm.shape[0]
 uni_mpc = mpc.UniformDistMotifPositionChooser(graph_size, motif_size)
 
 # Create graph. adm means adjacency matrix. Change prob to create edges other than motif(check function docs)
-graph_adm = dg.create_graph_with_motif(graph_size, triangle_motif_adm, uni_mpc, num_motifs, prob=0.2)
+graph_adm = dg.create_graph_with_motif(graph_size, triangle_motif_adm, uni_mpc, num_motifs, prob=0.0001)
 
 # Save graph.
 # Write edges.

@@ -47,7 +47,13 @@ class AbstractMotifPositionChooser(MotifPositionChooser):
 
 class UniformDistMotifPositionChooser(AbstractMotifPositionChooser):
 
-    """An implementation of motif position chooser that chooses next motif position using a uniform distribution."""
+    """An implementation of motif position chooser that chooses next motif position using a uniform distribution.
+
+    On each call to next_motif_position, this implementation chooses nodes equal to motif size from a uniform distribution.
+    However, there is an additional check that you don't return the same motif nodes twice e.g. if motif size is 3,
+    and you have already returned (3,1,5), then you won't return it again. Some other ordering of same three nodes can
+    be returned e.g. (1,5,3) can still be returned.
+    """
 
     def __init__(self, graph_size, motif_size):
         # super class constructor call.
@@ -69,3 +75,32 @@ class UniformDistMotifPositionChooser(AbstractMotifPositionChooser):
         return tuple(np.random.choice(range(self.graph_size),
                                                  size=self.motif_size,
                                                  replace=False))
+
+
+class NoOverlappingVerticesPositionChooser(AbstractMotifPositionChooser):
+
+    """This implementation makes sure that one vertex  is not chosen multiple times.
+
+    This implementation is very similar to UniformDistMotifPositionChooser. The difference is that one vertex is not
+    chosen multiple times. Every time you chooe some vertices for a motif, they are removed from the underlying distribution.
+    and never returned again. In other words, a single vertex can only participate in one motif.
+    """
+
+    def __init__(self, graph_size, motif_size):
+        # super class constructor call.
+        super(NoOverlappingVerticesPositionChooser, self).__init__(graph_size, motif_size)
+        self.possible_motif_positions = range(graph_size)
+
+    def next_motif_position(self):
+        assert len(self.possible_motif_positions) > self.motif_size, "Ran out of all different motif positions."
+        motif_position = self.__raw_next_motif_position()
+        for i in motif_position:
+            self.possible_motif_positions.remove(i)
+        return motif_position
+
+    def __raw_next_motif_position(self):
+        return tuple(np.random.choice(self.possible_motif_positions,
+                                                 size=self.motif_size,
+                                                 replace=False))
+
+
