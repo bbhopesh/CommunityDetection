@@ -47,4 +47,3 @@ tian_graph_obj = gru.convert_adj_mat_to_graph_obj(graph_adm, graph_labels)
 sm.SubgraphMatching(tian_graph_obj, [["A",["B", "C"]], ["B", ["C"]]])
 
 # Look at load_neo4j.cypher next.
-
