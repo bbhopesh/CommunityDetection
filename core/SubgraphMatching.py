@@ -45,20 +45,22 @@ class Graph():
     def getBinding(self, H):
         return {h:self.label_id[h] for h in H}
 
-def main():
-    graph = Graph({"A1":("Alice", ["B1","D1","E1"]),\
+def SubgraphMatching(graph, decomp):
+    """graph = Graph({"A1":("Alice", ["B1","D1","E1"]),\
         "B1":("Bob", ["A1","C1","D1"]), "C1":("Carl", ["B1","E1","A2"]),\
         "D1":("David", ["A1","B1"]), "E1":("Emily", ["A1","C1","B2"]),\
         "A2":("Alice", ["C1"]), "B2":("Bob", ["C2","D2"]),\
-        "C2":("Carl", ["B2","D2"]), "D2":("David", ["B2","C2"])})
+        "C2":("Carl", ["B2","D2"]), "D2":("David", ["B2","C2"])})"""
         
     """print graph.label_id, graph.id_label, graph.Load("A1"),\
         graph.getID("Alice"), graph.graph"""
     
-    r1 = graph.MatchSTwig("Bob", ["Carl", "David"])
-    r2 = graph.MatchSTwig("Carl", ["David"])
-    binding = graph.getBinding(["Bob", "Carl", "David"])
-    print r1, r2, binding
+    r1 = graph.MatchSTwig(*decomp[0])
+    r2 = graph.MatchSTwig(*decomp[1])
+    query = tuple(set([i[0] for i in decomp] +\
+        [j for j in i[1] for i in decomp]))
+    binding = graph.getBinding(query)
+    # print r1, r2, binding
     
     res = set()
     dot = [i for i in it.product(r1, r2)]
@@ -70,6 +72,5 @@ def main():
         if all(i <= 1 for i in cnt):
             res.add(tuple(candidate))
     print res
-
-if __name__ == "__main__":
-    main()
+    return res
+    
