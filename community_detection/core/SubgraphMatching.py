@@ -1,4 +1,5 @@
 import itertools as it
+import time
 
 # graph data structure
 class Graph():
@@ -11,10 +12,11 @@ class Graph():
         
         for g in graph:
             self.id_label[g] = graph[g][0]
-            if graph[g][0] not in self.label_id:
-                self.label_id[graph[g][0]] = [g]
-            else:
-                self.label_id[graph[g][0]].append(g)
+            for i in graph[g][0]:
+                if i not in self.label_id:
+                    self.label_id[i] = [g]
+                else:
+                    self.label_id[i].append(g)
     
     # given id, return id of neighbors
     def Load(self, id):
@@ -26,7 +28,7 @@ class Graph():
         
     # check id has given label
     def hasLabel(self, id, label):
-        return self.id_label[id] == label
+        return label in self.id_label[id]
 
     # given root label and labels of child nodes, return STwig
     def MatchSTwig(self, r, L):
@@ -46,15 +48,16 @@ class Graph():
         return {h:self.label_id[h] for h in H}
 
 def SubgraphMatching(graph, decomp):
-    """graph = Graph({"A1":("Alice", ["B1","D1","E1"]),\
-        "B1":("Bob", ["A1","C1","D1"]), "C1":("Carl", ["B1","E1","A2"]),\
-        "D1":("David", ["A1","B1"]), "E1":("Emily", ["A1","C1","B2"]),\
-        "A2":("Alice", ["C1"]), "B2":("Bob", ["C2","D2"]),\
-        "C2":("Carl", ["B2","D2"]), "D2":("David", ["B2","C2"])})"""
+    """graph = Graph({"A1":(["Alice", "Carl"], ["B1","D1","E1"]),\
+        "B1":(["Bob"], ["A1","C1","D1"]), "C1":(["Carl"], ["B1","E1","A2"]),\
+        "D1":(["David"], ["A1","B1"]), "E1":(["Emily"], ["A1","C1","B2"]),\
+        "A2":(["Alice"], ["C1"]), "B2":(["Bob"], ["C2","D2"]),\
+        "C2":(["Carl"], ["B2","D2"]), "D2":(["David"], ["B2","C2"])})"""
         
     """print graph.label_id, graph.id_label, graph.Load("A1"),\
         graph.getID("Alice"), graph.graph"""
     
+    start = time.time()
     r1 = graph.MatchSTwig(*decomp[0])
     r2 = graph.MatchSTwig(*decomp[1])
     query = tuple(set([i[0] for i in decomp] +\
@@ -72,5 +75,10 @@ def SubgraphMatching(graph, decomp):
         if all(i <= 1 for i in cnt):
             res.add(tuple(candidate))
     print res
+    end = time.time()
+    print "query time:", end-start
+    
     return res
+
+# SubgraphMatching(None, [["Bob", ["Carl", "David"]], ["Carl", ["David"]]])
     
