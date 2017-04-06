@@ -21,8 +21,11 @@ motif_size = triangle_motif_adm.shape[0]
 # Currently each set has just one label because our initial algorithm can only handle one label per node.
 triangle_motif_labels = [set() for _ in range(3)]
 triangle_motif_labels[0].add('A')
+triangle_motif_labels[0].add('D')
 triangle_motif_labels[1].add('B')
+triangle_motif_labels[1].add('E')
 triangle_motif_labels[2].add('C')
+triangle_motif_labels[2].add('F')
 
 
 # Create a motif position chooser. This object will be called repeatedly to get the positions where motif should be
@@ -31,7 +34,7 @@ triangle_motif_labels[2].add('C')
 no_overlap_mpc = mpc.NoOverlappingVerticesPositionChooser(graph_size, motif_size)
 
 # Create graph. adm means adjacency matrix. Change prob to create edges other than motif(check function docs)
-graph_adm, graph_labels = dg.create_graph_with_motif(graph_size, triangle_motif_adm, triangle_motif_labels, no_overlap_mpc, num_motifs, prob=0)
+graph_adm, graph_labels = dg.create_graph_with_motif(graph_size, triangle_motif_adm, triangle_motif_labels, no_overlap_mpc, num_motifs, prob=0.002)
 
 # Save graph.
 # Write edges.
