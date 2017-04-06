@@ -45,7 +45,7 @@ class Graph():
         
     # get binding info, Hx is all labels that match x
     def getBinding(self, H):
-        return {h:self.label_id[h] for h in H}
+        return {h:set(self.label_id[h]) for h in H}
 
 def SubgraphMatching(graph, decomp):
     """graph = Graph({"A1":(["Alice", "Carl"], ["B1","D1","E1"]),\
@@ -65,18 +65,20 @@ def SubgraphMatching(graph, decomp):
     binding = graph.getBinding(query)
     # print r1, r2, binding
     
+    mid = time.time()
     res = set()
     dot = [i for i in it.product(r1, r2)]
     for l in dot:
         candidate = set([item for sublist in l for item in sublist])
         cnt = []
         for i in binding:
-            cnt.append(len(set(binding[i]) & candidate))
+            cnt.append(len(binding[i] & candidate))
         if all(i <= 1 for i in cnt):
             res.add(tuple(candidate))
     print res
     end = time.time()
-    print "query time:", end-start
+    print "Total query time:", end-start
+    print "MatchSTwig phase:", mid-start, "\nJoining phase:",end-mid
     
     return res
 

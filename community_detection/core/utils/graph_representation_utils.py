@@ -23,7 +23,7 @@ def convert_adj_list_to_graph_obj(graph_adl, node_labels, node_unique_ids=None):
         # We are picking any element of set for now. Our set should only have one element.
         # label = next(iter(node_labels[i])) if len(node_labels[i]) > 0 else ''
         graph_class_input[node_unique_ids[i]] = (list(node_labels[i]), graph_adl[i])
-    print graph_class_input
+    # print graph_class_input
 
     return sgm.Graph(graph_class_input)
 
