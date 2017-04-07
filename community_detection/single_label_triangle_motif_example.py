@@ -31,10 +31,12 @@ triangle_motif_labels[2].add('F')
 # Create a motif position chooser. This object will be called repeatedly to get the positions where motif should be
 # inserted. In this example, we are using a chooser which makes a node part of any motif atmost once.
 # This is because our initial algorithm can only handle one label per node.
-no_overlap_mpc = mpc.NoOverlappingVerticesPositionChooser(graph_size, motif_size)
+# no_overlap_mpc = mpc.NoOverlappingVerticesPositionChooser(graph_size, motif_size)
+overlap_mpc = mpc.UniformDistMotifPositionChooser(graph_size, motif_size)
 
 # Create graph. adm means adjacency matrix. Change prob to create edges other than motif(check function docs)
-graph_adm, graph_labels = dg.create_graph_with_motif(graph_size, triangle_motif_adm, triangle_motif_labels, no_overlap_mpc, num_motifs, prob=0.002)
+# graph_adm, graph_labels = dg.create_graph_with_motif(graph_size, triangle_motif_adm, triangle_motif_labels, no_overlap_mpc, num_motifs, prob=0.002)
+graph_adm, graph_labels = dg.create_graph_with_motif(graph_size, triangle_motif_adm, triangle_motif_labels, overlap_mpc, num_motifs, prob=0.002)
 
 # Save graph.
 # Write edges.

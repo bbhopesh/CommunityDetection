@@ -41,46 +41,47 @@ class Graph():
                 Sl.append(set([i for i in c if self.hasLabel(i, l)]))
             candidates = [[n]] + [list(i) for i in Sl]
             R.add(tuple(set([i for i in it.product(*candidates)])))
-        return [i[0] for i in R if len(i) != 0]
+        return [i for s in R for i in s if len(s) != 0]
         
     # get binding info, Hx is all labels that match x
     def getBinding(self, H):
         return {h:set(self.label_id[h]) for h in H}
 
+def triangle_check(pre, graph):
+    res = []
+    for i in pre:
+        if all(i[(j+1) % 3] in graph.graph[i[j]] for j in [0,1,2]):
+            res.append(i)
+    return res
+
 def SubgraphMatching(graph, decomp):
-    """graph = Graph({"A1":(["Alice", "Carl"], ["B1","D1","E1"]),\
-        "B1":(["Bob"], ["A1","C1","D1"]), "C1":(["Carl"], ["B1","E1","A2"]),\
-        "D1":(["David"], ["A1","B1"]), "E1":(["Emily"], ["A1","C1","B2"]),\
-        "A2":(["Alice"], ["C1"]), "B2":(["Bob"], ["C2","D2"]),\
-        "C2":(["Carl"], ["B2","D2"]), "D2":(["David"], ["B2","C2"])})"""
-        
-    """print graph.label_id, graph.id_label, graph.Load("A1"),\
-        graph.getID("Alice"), graph.graph"""
     
+    # print graph.label_id, graph.id_label, graph.graph    
     start = time.time()
     r1 = graph.MatchSTwig(*decomp[0])
     r2 = graph.MatchSTwig(*decomp[1])
     query = tuple(set([i[0] for i in decomp] +\
         [j for j in i[1] for i in decomp]))
-    binding = graph.getBinding(query)
-    # print r1, r2, binding
+    # binding = graph.getBinding(query)
+    # print r1, r2, query
     
     mid = time.time()
     res = set()
-    dot = [i for i in it.product(r1, r2)]
-    for l in dot:
-        candidate = set([item for sublist in l for item in sublist])
-        cnt = []
-        for i in binding:
-            cnt.append(len(binding[i] & candidate))
-        if all(i <= 1 for i in cnt):
+    for l in it.product(r1, r2):
+        candidate = set([i for s in l for i in s])
+        if len(candidate) == len(query):
             res.add(tuple(candidate))
-    print res
+    res = triangle_check(res, graph)
     end = time.time()
-    print "Total query time:", end-start
-    print "MatchSTwig phase:", mid-start, "\nJoining phase:",end-mid
+    
+    print res
+    print "Total query time:", end-start, "\tCount:", len(res)
+    print "MatchSTwig phase:", mid-start, "\tJoining phase:",end-mid
     
     return res
 
-# SubgraphMatching(None, [["Bob", ["Carl", "David"]], ["Carl", ["David"]]])
+"""g1 = Graph({0:([["C","F"],[3,6]]), 1:[["A","D"],[5,8]],\
+    3:[["B","E"],[0,6]], 5:[["C","F"],[1,8]], 6:[["A","C","D","F"],\
+    [0,3,7,8]], 7:[["A","D"],[6,8]], 8:[["B","E"],[1,5,6,7]]})
+SubgraphMatching(g1, [["A", ["B", "C"]], ["B", ["C"]]])"""
     
