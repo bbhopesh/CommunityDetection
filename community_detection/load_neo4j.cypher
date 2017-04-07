@@ -18,3 +18,5 @@ CREATE (from)-[:E]->(to)
 
 // Look at nodes with motifs.
 MATCH (n:Node)-[r:E]-(m:Node) WHERE n.labels IN ['A', 'B', 'C'] and m.labels IN ['A', 'B', 'C'] RETURN n,r,m
+
+MATCH (n1:Node)-[r1:E]-(n2:Node)-[r2:E]-(n3:Node)-[r3:E]-(n1:Node) WHERE 'A' IN n1.labels  and 'B' IN n2.labels and 'C' IN n3.labels RETURN n1,n2,n3,r1,r2,r3
