@@ -38,10 +38,12 @@ def convert_motifs_into_motif_graph(motifs_list):
 
     Eah motif in the provided list is a node in the new graph and weight of edge between two motifs indicates number
     of vertices two motifs share.
+    The returned graph will be in an adjacency matrix notation of size nxn where n is size of motifs list.
+    Row(or column) index of matrix will directly match with index in the provided list.
     :param motifs_list: list of motifs where each motif is represented by a tuple of vertices.
     So this basically a list of typles. e.g. [(2,10,5), (5,19,34), .....] means that in the original graph (2,10,5) form
     one motif, (5, 19, 34) form another motif and so on
-    :return: Graph where each motif is one single node. Graph returned is in form of adjacency list.
+    :return: Graph where each motif is one single node. Graph returned is in form of adjacency matrix as described above.
     """
     # This code is linear in size of motifs_list
     # 1. First build a dictionary mapping vertex to set of motifs it occurs in.
