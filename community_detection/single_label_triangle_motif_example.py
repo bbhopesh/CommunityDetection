@@ -5,6 +5,7 @@ import core.utils.neo4j_utils as nu
 import core.utils.graph_representation_utils as gru
 import core.SubgraphMatching as sm
 
+'''
 # Output files. These files will be written by this script and can be loaded into neo4j for visualization.
 vertices_file = "vertices.csv"
 edges_file = "edges.csv"
@@ -46,9 +47,23 @@ vertices_names = []
 for i in range(graph_adm.shape[0]):
     vertices_names.append("Node{0}".format(i))
 nu.write_node_names_to_csv(vertices_names, graph_labels, vertices_file)
+'''
 
 # That's how you create Graph object
-tian_graph_obj = gru.convert_adj_mat_to_graph_obj(graph_adm, graph_labels)
-sm.SubgraphMatching(tian_graph_obj, [["A",["B", "C"]], ["B", ["C"]]])
+adj_list = gru.convert_ego_network_files_into_adj_list("./core/ego_dataset")
+# tian_graph_obj = gru.convert_adj_mat_to_graph_obj(graph_adm, graph_labels)
+graph = gru.get_graph_object(adj_list)
+
+# motif_list = sm.SubgraphMatching(graph, [["A",["B", "C"]], ["B", ["C"]]])
+motif_list = sm.SubgraphMatching(graph, [["university of illinois at urbana-champaign",\
+                                              ["shanghai jiao tong university", "google"]],\
+                                             ["shanghai jiao tong university", ["google"]]])
+motif_graph = gru.convert_motifs_into_motif_graph(motif_list)
+# print motif_graph
+
+# motif_graph = None
+networkx_graph_object = gru.convert_motif_graph_to_network_graph_object(motif_graph)
+clusters = gru.generate_graph_clusters(5, networkx_graph_object)
+print clusters
 
 # Look at load_neo4j.cypher next.

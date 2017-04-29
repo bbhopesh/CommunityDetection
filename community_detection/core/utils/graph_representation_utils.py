@@ -1,7 +1,9 @@
 from .. import SubgraphMatching as sgm
 import itertools
 import os
-
+import networkx as nx
+from hac import GreedyAgglomerativeClusterer as Clusterer
+import matplotlib.pyplot as plt
 
 def convert_adj_mat_to_adj_list(graph_adm):
     adj_lists = []
@@ -233,3 +235,44 @@ def convert_ego_network_files_into_adj_list(file_location_dir):
             uid = education.readline().strip()
 
     return adj_list
+
+# create a graph object
+def get_graph_object(data):
+    graph = {}
+    for i in data:
+        j = data[i]
+        graph[i] = ([j["location"]] + j["education"] + j["employers"],\
+                        [a["id"] for a in j["adjacencies"]])
+    # print graph
+    return sgm.Graph(graph)
+
+# convert adjacency list to network x graph object
+def convert_motif_graph_to_network_graph_object(adjacency_list):
+    size = len(adjacency_list)
+    graph = nx.Graph()
+    graph.add_nodes_from(adjacency_list.keys())
+
+    for motif in adjacency_list:
+        for neighbor, w in adjacency_list[motif].items():
+            graph.add_edge(motif, neighbor) #, weight = w)
+            print motif, neighbor
+    print adjacency_list.keys()
+
+    # print nx.draw(graph)
+    # plt.show()
+    '''
+    graph = nx.Graph()
+    graph.add_nodes_from([0,1,2,3,4,5,6])
+    graph.add_edges_from([(1,2),(2,3),(1,3),(4,5),(5,6),(4,6),(0,1),(0,6),(0,7),(2,1),(3,2),(5,4)])
+    print Clusterer().cluster(graph).clusters()
+    '''
+    return graph
+
+# generate clusters
+# num_of_cluster = 0 if let the algorithm choose
+def generate_graph_clusters(num_of_clusters, graph):
+    communities = Clusterer().cluster(graph)
+    if num_of_clusters == 0:
+        return communities.clusters(), communities.labels()
+    else:
+        return communities.clusters(num_of_clusters), communities.labels()

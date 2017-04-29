@@ -70,7 +70,7 @@ def SubgraphMatching(graph, decomp):
     for l in it.product(r1, r2):
         candidate = set([i for s in l for i in s])
         if len(candidate) == len(query):
-            res.add(tuple(candidate))
+            res.add(tuple(sorted(candidate)))
     res = triangle_check(res, graph)
     end = time.time()
     
