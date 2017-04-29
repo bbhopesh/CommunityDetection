@@ -279,3 +279,98 @@ def generate_graph_clusters(num_of_clusters, graph):
     else:
         return communities.clusters(num_of_clusters), communities.labels(),\
             "clustering finished in {}".format((time.clock()-start))
+
+
+'''
+    Function: convert_snap_comm_dataset_into_adj_list
+    Parameter: (String) file_location_dir A string representing the directory, not having a "/" appended
+                containing the desired dataset.
+
+                (String) dataset_name A string representing the name of the dataset file
+
+    Returns: A dict of the following structure:
+    {
+        "id" => ...
+        "id" => ['toId1','toId2',...]
+        "id" => ...
+    }
+
+    Wherein "id" represents the ID of a node and its corresponding list is the list of ID's
+
+
+    Edge Cases:
+        The snap community dataset data files typically includes about 4 lines of comments. Remove these lines first otherwise
+        The below code will break.
+'''
+def convert_snap_comm_dataset_into_adj_list(file_location_dir, fileName):
+    assert os.path.isdir(file_location_dir), "Parameter file_location_dir must be a directory containing the SNAP Dataset files"
+    assert os.path.exists(file_location_dir + "/" + fileName), "Error, file '" + fileName +"' is missing"
+
+    adj_list = {}
+
+    with open(file_location_dir + "/" + fileName) as labels:
+        for line in labels:
+            ids = line.split()
+            assert len(ids) is 2, "Oops, accidentally read this line:" + line + " , please remove it from the dataset file."
+            fromId = ids[0]
+            toId = ids[1]
+
+            if not fromId in adj_list:
+                adj_list[fromId] = []
+
+            if not toId in adj_list:
+                adj_list[toId] = []
+
+            # These datasets are  undirected but the lines aren't isomorphic (we have a 0 1 relationship but not 1 0 in the dataset)
+            adj_list[fromId].append(toId)
+            adj_list[toId].append(fromId)
+
+    return adj_list
+
+'''
+    Function: convert_snap_comm_dataset_into_adj_list
+    Parameter: (String) file_location_dir A string representing the directory, not having a "/" appended
+                containing the desired dataset.
+
+                (String) dataset_name A string representing the name of the ground truth dataset file
+
+    Returns: A dict of the following structure:
+    {
+        "id" => ...
+        "id" => ['toId1','toId2',...]
+        "id" => ...
+    }
+
+    Wherein "id" represents the ID of a node and its corresponding list is the list of ID's
+
+    Edge Cases:
+        Unknown at this time
+'''
+def convert_snap_ground_truth_comm_into_adj_list(file_location_dir, fileName):
+    assert os.path.isdir(file_location_dir), "Parameter file_location_dir must be a directory containing the SNAP Dataset files"
+    assert os.path.exists(file_location_dir + "/" + fileName), "Error, file '" + fileName +"' is missing"
+
+    adj_list = {}
+    count = 0
+    with open(file_location_dir + "/" + fileName) as labels:
+        for line in labels:
+            count +=1
+            ids = line.split()
+            print "Community " + str(count) + " size of " + str(len(ids))
+            for node_id in ids:
+                for to_id in ids[ids.index(node_id)+1:]:
+
+                    if not node_id in adj_list:
+                        adj_list[node_id] = []
+
+                    if not to_id in adj_list:
+                        adj_list[to_id] = []
+
+                    if not to_id in adj_list[node_id]:
+                        adj_list[node_id].append(to_id)
+
+                    if not node_id in adj_list[to_id]:
+                        adj_list[to_id].append(node_id)
+
+    return adj_list
+
