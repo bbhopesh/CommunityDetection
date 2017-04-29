@@ -4,7 +4,6 @@ import os
 import networkx as nx
 from hac import GreedyAgglomerativeClusterer as Clusterer
 import matplotlib.pyplot as plt
-import time
 
 def convert_adj_mat_to_adj_list(graph_adm):
     adj_lists = []
@@ -266,16 +265,13 @@ def convert_motif_graph_to_network_graph_object(adjacency_list):
 
     # print nx.draw(graph)
     # plt.show()
-    return graph, table
+    return graph
 
 # generate clusters
 # num_of_cluster = 0 if let the algorithm choose
 def generate_graph_clusters(num_of_clusters, graph):
-    start = time.clock()
     communities = Clusterer().cluster(graph)
     if num_of_clusters == 0:
-        return communities.clusters(), communities.labels(),\
-            "clustering finished in {}".format((time.clock()-start))
+        return communities.clusters(), communities.labels()
     else:
-        return communities.clusters(num_of_clusters), communities.labels(),\
-            "clustering finished in {}".format((time.clock()-start))
+        return communities.clusters(num_of_clusters), communities.labels()
