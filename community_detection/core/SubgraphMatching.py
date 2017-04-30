@@ -47,19 +47,23 @@ class Graph():
     def getBinding(self, H):
         return {h:set(self.label_id[h]) for h in H}
 
-def triangle_check(pre, graph):
+def triangle_check(pre, graph, size):
     res = []
     for i in pre:
-        if all(i[(j+1) % 3] in graph.graph[i[j]] for j in [0,1,2]):
+        if all(i[(j+1) % size] in graph.graph[i[j]] for j in range(size)):
             res.append(i)
     return res
 
-def SubgraphMatching(graph, decomp):
+def SubgraphMatching(graph, decomp, triangle = False):
     
     # print graph.label_id, graph.id_label, graph.graph    
     start = time.time()
     r1 = graph.MatchSTwig(*decomp[0])
-    r2 = graph.MatchSTwig(*decomp[1])
+    if triangle == True:
+        r2 = [()]
+    else:
+        r2 = graph.MatchSTwig(*decomp[1])
+
     query = tuple(set([i[0] for i in decomp] +\
         [j for j in i[1] for i in decomp]))
     # binding = graph.getBinding(query)
@@ -69,9 +73,9 @@ def SubgraphMatching(graph, decomp):
     res = set()
     for l in it.product(r1, r2):
         candidate = set([i for s in l for i in s])
-        if len(candidate) == len(query):
+        if len(candidate) == 3:
             res.add(tuple(sorted(candidate)))
-    res = triangle_check(res, graph)
+    res = triangle_check(res, graph, 3)
     end = time.time()
     
     print res

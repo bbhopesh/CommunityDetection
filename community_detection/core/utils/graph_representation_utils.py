@@ -271,11 +271,8 @@ def convert_motif_graph_to_network_graph_object(adjacency_list):
 # generate clusters
 # num_of_cluster = 0 if let the algorithm choose
 def generate_graph_clusters(num_of_clusters, graph):
-    start = time.clock()
     communities = Clusterer().cluster(graph)
     if num_of_clusters == 0:
-        return communities.clusters(), communities.labels(),\
-            "clustering finished in {}".format((time.clock()-start))
+        return communities.clusters(), communities.labels()
     else:
-        return communities.clusters(num_of_clusters), communities.labels(),\
-            "clustering finished in {}".format((time.clock()-start))
+        return communities.clusters(num_of_clusters), communities.labels()
