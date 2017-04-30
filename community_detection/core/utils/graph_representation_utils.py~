@@ -275,7 +275,12 @@ def generate_graph_clusters(num_of_clusters, graph):
     if num_of_clusters == 0:
         return communities.clusters(), communities.labels()
     else:
+<<<<<<< HEAD
         return communities.clusters(num_of_clusters), communities.labels()
+=======
+        return communities.clusters(num_of_clusters), communities.labels(),\
+            "clustering finished in {}".format((time.clock()-start))
+
 
 '''
     Function: convert_snap_comm_dataset_into_adj_list
@@ -369,3 +374,5 @@ def convert_snap_ground_truth_comm_into_adj_list(file_location_dir, fileName):
                         adj_list[to_id].append(node_id)
 
     return adj_list
+
+>>>>>>> 38f0c0657de4d8a99be662562cdb4aecd808d6a7

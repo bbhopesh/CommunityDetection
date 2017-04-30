@@ -6,9 +6,9 @@ adj_list = gru.convert_ego_network_files_into_adj_list("./core/ego_dataset")
 # print "# nodes: {}, # edges: {}".format(len(adj_list), sum([len(j) for i,j in adj_list.items()])/2)
 graph = gru.get_graph_object(adj_list)
 
-'''motif_list = sm.SubgraphMatching(graph, [["university of illinois at urbana-champaign",\
+motif_list = sm.SubgraphMatching(graph, [["university of illinois at urbana-champaign",\
                                               ["shanghai jiao tong university", "google"]],\
-                                             ["shanghai jiao tong university", ["google"]]], True)'''
+                                             ["shanghai jiao tong university", ["google"]]], True)
 
 '''motif_list = sm.SubgraphMatching(graph, [["university of illinois at urbana-champaign",\
                                               ["facebook", "google"]],\
@@ -18,9 +18,9 @@ graph = gru.get_graph_object(adj_list)
                                  ["university of illinois at urbana-champaign", "university of illinois at urbana-champaign"]],\
                                  ["university of illinois at urbana-champaign", ["university of illinois at urbana-champaign"]]], True)'''
 
-motif_list = sm.SubgraphMatching(graph, [["university of illinois at urbana-champaign",\
+'''motif_list = sm.SubgraphMatching(graph, [["university of illinois at urbana-champaign",\
                                               ["university of illinois at urbana-champaign", "google"]],\
-                                             ["university of illinois at urbana-champaign", ["google"]]], True)
+                                             ["university of illinois at urbana-champaign", ["google"]]], True)'''
 start = time.clock()
 motif_graph = gru.convert_motifs_into_motif_graph(motif_list)
 print "network construction time: {}".format(time.clock()-start)
