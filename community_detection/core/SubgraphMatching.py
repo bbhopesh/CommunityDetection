@@ -54,12 +54,20 @@ def triangle_check(pre, graph, size):
             res.append(i)
     return res
 
-def SubgraphMatching(graph, decomp, triangle = False):
+def star_check(pre, graph):
+    res = []
+    for i in pre:
+        nodes = set(i)
+        if any(all(k in graph.graph[j] for k in nodes-set([j])) for j in nodes):
+            res.append(i)
+    return res
+
+def SubgraphMatching(graph, decomp, one_level = False, type = "triangle", size = 3):
     
     # print graph.label_id, graph.id_label, graph.graph    
     start = time.time()
     r1 = graph.MatchSTwig(*decomp[0])
-    if triangle == True:
+    if one_level == True:
         r2 = [()]
     else:
         r2 = graph.MatchSTwig(*decomp[1])
@@ -67,15 +75,19 @@ def SubgraphMatching(graph, decomp, triangle = False):
     query = tuple(set([i[0] for i in decomp] +\
         [j for j in i[1] for i in decomp]))
     # binding = graph.getBinding(query)
-    # print r1, r2, query
+    # print len(r1), len(r2), query
     
     mid = time.time()
     res = set()
     for l in it.product(r1, r2):
         candidate = set([i for s in l for i in s])
-        if len(candidate) == 3:
+        if len(candidate) == size:
             res.add(tuple(sorted(candidate)))
-    res = triangle_check(res, graph, 3)
+
+    if type == "triangle":
+        res = triangle_check(res, graph, size)
+    if type == "star":
+        res = star_check(res, graph)
     end = time.time()
     
     print res

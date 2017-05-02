@@ -251,10 +251,11 @@ def get_graph_object(data):
 def convert_motif_graph_to_network_graph_object(adjacency_list):
 
     # map the motifs to integer
-    table = {}
+    table, table_inv = {}, {}
     cnt = 0
     for motif in adjacency_list:
         table[motif] = cnt
+        table_inv[cnt] = motif
         cnt += 1
 
     # generate a networkx graph
@@ -266,16 +267,18 @@ def convert_motif_graph_to_network_graph_object(adjacency_list):
 
     # print nx.draw(graph)
     # plt.show()
-    return graph, table
+    return graph, table, table_inv
 
 # generate clusters
 # num_of_cluster = 0 if let the algorithm choose
-def generate_graph_clusters(num_of_clusters, graph):
+def generate_graph_clusters(num_of_clusters, graph, table):
     communities = Clusterer().cluster(graph)
+    res_clusters, res_labels = None, None
     if num_of_clusters == 0:
-        return communities.clusters(), communities.labels()
+        res_clusters, res_labels = communities.clusters(), communities.labels()
     else:
-        return communities.clusters(num_of_clusters), communities.labels()
+        res_clusters, res_labels = communities.clusters(num_of_clusters), communities.labels()
+    return [[table[j] for j in i] for i in res_clusters], {table[i]:res_labels[i] for i in res_labels}
 
 '''
     Function: convert_snap_comm_dataset_into_adj_list
