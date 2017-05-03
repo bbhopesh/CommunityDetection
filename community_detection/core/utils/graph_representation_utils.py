@@ -249,7 +249,6 @@ def get_graph_object(data):
 
 # convert adjacency list to network x graph object
 def convert_motif_graph_to_network_graph_object(adjacency_list):
-
     # map the motifs to integer
     table, table_inv = {}, {}
     cnt = 0

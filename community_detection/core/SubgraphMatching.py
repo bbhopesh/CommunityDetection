@@ -90,7 +90,7 @@ def SubgraphMatching(graph, decomp, one_level = False, type = "triangle", size =
         res = star_check(res, graph)
     end = time.time()
     
-    print res
+    #print res
     print "Total query time:", end-start, "\tCount:", len(res)
     print "MatchSTwig phase:", mid-start, "\tJoining phase:",end-mid
     
