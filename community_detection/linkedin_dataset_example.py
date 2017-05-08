@@ -39,52 +39,64 @@ for key in clusters[1]:
 # print clusters
 print "clustering time: {} , # clusters: {}".format(time.clock()-mid, len(clusters[0]))
 
-output_graph = {}
 
+cluster_no = 0
 for cluster in clusters[0]:
+    cluster_no += 1
+    motif_nodes = set()
+    all_motif_nodes_and_connecting_nodes = set()
     for motif in cluster:
         for node in motif:
+            motif_nodes.add(node)
+            all_motif_nodes_and_connecting_nodes.add(node)
             node_data = adj_list[node]
             node_adj_list = [a["id"] for a in node_data["adjacencies"]]
-            #node_attributes = [node_data["location"]] + node_data["education"] + node_data["employers"]
-            node_attributes_all = node_data["education"] + node_data["employers"]
-            # add relevant attirbutes from our search at top
-            node_attributes = []
-            for node_attribute in node_attributes_all:
-                #if node_attribute in ["university of illinois at urbana-champaign", "shanghai jiao tong university", "google"]:
-                if node_attribute in ["facebook"]:
-                    node_attributes.append(node_attribute)
-            node_output_data = {}
-            node_output_data["adjacencies"] = node_adj_list
-            node_output_data["attributes"] = node_attributes
-            output_graph[node] = node_output_data
+            for n in node_adj_list:
+                all_motif_nodes_and_connecting_nodes.add(n)
 
-import json
-#with open('triangle_motif_original_nodes.json', 'w') as fp:
-with open('stars_motif_original_nodes.json', 'w') as fp:
-    json.dump(output_graph, fp)
+    output_graph = {}
+    for node in all_motif_nodes_and_connecting_nodes:
+        node_data = adj_list[node]
+        if node in motif_nodes:
+            node_adj_list = [a["id"] for a in node_data["adjacencies"]]
+        else:
+            node_adj_list = []
+        node_attributes_all = [node_data["location"]] + node_data["education"] + node_data["employers"]
+        #node_attributes_all = node_data["education"] + node_data["employers"]
+        # add relevant attirbutes from our search at top
+        node_attributes = []
+        for node_attribute in node_attributes_all:
+            #if node_attribute in ["university of illinois at urbana-champaign", "shanghai jiao tong university", "google"]:
+            #if node_attribute in ["facebook"]:
+            if True:
+                node_attributes.append(node_attribute)
+        node_output_data = {}
+        node_output_data["adjacencies"] = node_adj_list
+        node_output_data["attributes"] = node_attributes
+        output_graph[node] = node_output_data
 
-#csv_vertices_file = "triangle_motif_vertices.csv"
-#csv_edges_file = "triangle_motif_edges.csv"
 
-csv_vertices_file = "star_motif_vertices.csv"
-csv_edges_file = "star_motif_edges.csv"
+    #csv_vertices_file = "triangle_motif_vertices.csv"
+    #csv_edges_file = "triangle_motif_edges.csv"
 
-import csv
-with open(csv_vertices_file, 'wb') as outcsv:
-        writer = csv.writer(outcsv)
-        # Write header.
-        writer.writerow(["id", "labels"])
-        for node in output_graph:
-            labels_str = ', '.join(str(e) for e in output_graph[node]["attributes"])
-            writer.writerow([node, labels_str])
+    csv_vertices_file = "star_motif_vertices_cluster{0}.csv".format(cluster_no)
+    csv_edges_file = "star_motif_edges_cluster{0}.csv".format(cluster_no)
 
-import csv
-with open(csv_edges_file, 'wb') as outcsv:
-        writer = csv.writer(outcsv)
-        # Write header.
-        writer.writerow(["from", "to"])
-        for node in output_graph:
-            neighbours = output_graph[node]["adjacencies"]
-            for neighbour in neighbours:
-                writer.writerow([node,neighbour])
+    import csv
+    with open(csv_vertices_file, 'wb') as outcsv:
+            writer = csv.writer(outcsv)
+            # Write header.
+            writer.writerow(["id", "labels"])
+            for node in output_graph:
+                labels_str = ', '.join(str(e) for e in output_graph[node]["attributes"])
+                writer.writerow([node, labels_str])
+
+    import csv
+    with open(csv_edges_file, 'wb') as outcsv:
+            writer = csv.writer(outcsv)
+            # Write header.
+            writer.writerow(["from", "to"])
+            for node in output_graph:
+                neighbours = output_graph[node]["adjacencies"]
+                for neighbour in neighbours:
+                    writer.writerow([node,neighbour])
