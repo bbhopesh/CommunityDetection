@@ -7,9 +7,9 @@ adj_list = gru.convert_ego_network_files_into_adj_list("./core/ego_dataset")
 graph = gru.get_graph_object(adj_list)
 
 
-'''motif_list = sm.SubgraphMatching(graph, [["university of illinois at urbana-champaign",\
+motif_list = sm.SubgraphMatching(graph, [["university of illinois at urbana-champaign",\
                                               ["shanghai jiao tong university", "google"]],\
-                                             ["shanghai jiao tong university", ["google"]]], True)'''
+                                             ["shanghai jiao tong university", ["google"]]], True)
 
 '''motif_list = sm.SubgraphMatching(graph, [["university of illinois at urbana-champaign",\
                                               ["facebook", "google"]],\
@@ -19,7 +19,7 @@ graph = gru.get_graph_object(adj_list)
                                               ["university of illinois at urbana-champaign", "google"]],\
                                              ["university of illinois at urbana-champaign", ["google"]]], True)'''
 
-motif_list = sm.SubgraphMatching(graph, [["facebook", ["facebook","facebook","facebook", "facebook"]]], True, "star", 5)
+'''motif_list = sm.SubgraphMatching(graph, [["facebook", ["facebook","facebook","facebook", "facebook"]]], True, "star", 5)'''
 
 start = time.clock()
 motif_graph = gru.convert_motifs_into_motif_graph(motif_list)
@@ -76,11 +76,11 @@ for cluster in clusters[0]:
         output_graph[node] = node_output_data
 
 
-    #csv_vertices_file = "triangle_motif_vertices.csv"
-    #csv_edges_file = "triangle_motif_edges.csv"
+    csv_vertices_file = "triangle_motif_vertices_cluster{0}.csv".format(cluster_no)
+    csv_edges_file = "triangle_motif_edges_cluster{0}.csv".format(cluster_no)
 
-    csv_vertices_file = "star_motif_vertices_cluster{0}.csv".format(cluster_no)
-    csv_edges_file = "star_motif_edges_cluster{0}.csv".format(cluster_no)
+    #csv_vertices_file = "star_motif_vertices_cluster{0}.csv".format(cluster_no)
+    #csv_edges_file = "star_motif_edges_cluster{0}.csv".format(cluster_no)
 
     import csv
     with open(csv_vertices_file, 'wb') as outcsv:

@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4d00e5d6-c60d-4b6d-9782-a130e3b29121" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/community_detection/star_motif_edges.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/community_detection/star_motif_vertices.csv" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/community_detection/linkedin_dataset_example.py" afterPath="$PROJECT_DIR$/community_detection/linkedin_dataset_example.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/community_detection/stars_motif_original_nodes.json" afterPath="$PROJECT_DIR$/community_detection/stars_motif_original_nodes.json" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,8 +21,8 @@
       <file leaf-file-name="linkedin_dataset_example.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/community_detection/linkedin_dataset_example.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="70" column="20" lean-forward="true" selection-start-line="70" selection-start-column="20" selection-end-line="70" selection-end-column="20" />
+            <state relative-caret-position="-165">
+              <caret line="25" column="43" lean-forward="false" selection-start-line="25" selection-start-column="43" selection-end-line="25" selection-end-column="43" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
               </folding>
@@ -580,7 +575,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/core/data_gen/data_gen.py" />
     <entry file="file://$PROJECT_DIR$/core/utils/neo4j_utils.py" />
     <entry file="file://$PROJECT_DIR$/examples/triangle_motif_example.py" />
     <entry file="file://$PROJECT_DIR$/examples/load_neo4j.cypher" />
@@ -786,10 +780,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/community_detection/triangle_motif_vertices_cluster1.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/community_detection/linkedin_dataset_example.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="70" column="20" lean-forward="true" selection-start-line="70" selection-start-column="20" selection-end-line="70" selection-end-column="20" />
+        <state relative-caret-position="-165">
+          <caret line="25" column="43" lean-forward="false" selection-start-line="25" selection-start-column="43" selection-end-line="25" selection-end-column="43" />
           <folding>
             <element signature="e#0#51#0" expanded="true" />
           </folding>
