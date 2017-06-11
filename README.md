@@ -37,3 +37,13 @@
 # To replicate experimentation
 To replicate experimenation, simply run the python script *linkedin\_dataset\_example.py* utilizing python.
 
+
+
+# Presentation
+Uploaded in the repository as `Presentation.pdf`
+Google slides https://docs.google.com/presentation/d/1lGMQaSso7ss6bR-eZTxzce3ivO9Ogdf29piCdQarTg8/edit?usp=sharing
+
+
+
+# Report
+Uploaded in the repository as `Report.pdf`
