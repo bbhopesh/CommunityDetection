@@ -40,7 +40,7 @@ To replicate experimenation, simply run the python script *linkedin\_dataset\_ex
 
 
 # Presentation
-Uploaded in the repository as `Presentation.pdf`
+Uploaded in the repository as `Presentation.pdf` <br/>
 Google slides https://docs.google.com/presentation/d/1lGMQaSso7ss6bR-eZTxzce3ivO9Ogdf29piCdQarTg8/edit?usp=sharing
 
 
