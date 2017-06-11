@@ -38,3 +38,13 @@ DIRECTORY LAYOUT (inside of community detection):
 TO REPLICATE EXPERIMENTATION
 To replicate experimenation, simply run the python script *linkedin_dataset_example.py* utilizing python.
 
+
+Presentation
+Uploaded in the repository as `Presentation.pdf`
+Google slides https://docs.google.com/presentation/d/1lGMQaSso7ss6bR-eZTxzce3ivO9Ogdf29piCdQarTg8/edit?usp=sharing
+
+
+
+Report
+Uploaded in the repository as `Report.pdf`
+
